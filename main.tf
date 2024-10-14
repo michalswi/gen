@@ -26,7 +26,7 @@ module "key_vault" {
 # todo - toremove
 resource "azurerm_virtual_network" "test" {
   name                = "example-vnet"
-  location            = azurerm_resource_group.example.location
+  location            = local.location
   resource_group_name = azurerm_resource_group.kv_rg.name
   address_space       = ["10.0.0.0/16"]
 }
@@ -51,8 +51,8 @@ module "pe" {
 
   priv_conn_config = {
     name_prefix                      = "keyvault"
-    private_connection_resource_id   = module.kv.key_vault_id
-    private_connection_resource_name = module.kv.key_vault_name
+    private_connection_resource_id   = module.key_vault.key_vault_id
+    private_connection_resource_name = module.key_vault.key_vault_name
     subresource_names                = ["vault"]
     private_dns_zone_name            = "privatelink.vaultcore.azure.net"
   }
