@@ -77,5 +77,7 @@ module "vm" {
   source_subnet_id = azurerm_subnet.vmtest.id
   source_vnet_name = azurerm_virtual_network.vmtest.name
 
+  identity_id = [module.key_vault.azurerm_user_assigned_identity_id]
+
   ip_whitelist = ["<ip>"]
 }
