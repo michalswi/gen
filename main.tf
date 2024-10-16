@@ -22,6 +22,7 @@ module "key_vault" {
 
   enable_logs              = false
   purge_protection_enabled = false
+  retention_days           = 7
 }
 
 
