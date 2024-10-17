@@ -115,6 +115,25 @@ resource "azurerm_public_ip" "pip" {
   ip_version          = "IPv4"
 }
 
+# module "pe_ag" {
+#   source = "git::git@github.com:michalswi/pe.git?ref=main"
+
+#   location = local.location
+#   tags     = local.tags
+
+#   rg_name          = azurerm_resource_group.ag.name
+#   source_vnet_id   = azurerm_virtual_network.ag.id
+#   source_subnet_id = azurerm_subnet.ag.id
+
+#   priv_conn_config = {
+#     name_prefix                      = "keyvault"
+#     private_connection_resource_id   = module.key_vault.key_vault_id
+#     private_connection_resource_name = module.key_vault.key_vault_name
+#     subresource_names                = ["vault"]
+#     private_dns_zone_name            = "privatelink.vaultcore.azure.net"
+#   }
+# }
+
 module "azure_app_gateway" {
   source = "git::git@github.com:michalswi/ag.git?ref=main"
 
@@ -126,8 +145,9 @@ module "azure_app_gateway" {
 
   key_vault_id = module.key_vault.key_vault_id
 
-  # certificate_refs = []
-  certificate_refs = ["ag-ssl-cert"]
+  # use 'default' cert
+  certificate_refs = []
+  # certificate_refs = ["ag-ssl-cert"]
 
   agw_public_ip_id = azurerm_public_ip.pip.id
 
