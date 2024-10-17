@@ -126,6 +126,7 @@ module "azure_app_gateway" {
 
   key_vault_id = module.key_vault.key_vault_id
 
+  # certificate_refs = []
   certificate_refs = ["ag-ssl-cert"]
 
   agw_public_ip_id = azurerm_public_ip.pip.id
