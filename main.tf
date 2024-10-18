@@ -126,9 +126,8 @@ module "azure_app_gateway" {
 
   key_vault_id = module.key_vault.key_vault_id
 
-  # use 'default' cert
-  certificate_refs = []
-  # certificate_refs = ["ag-ssl-cert"]
+  # if [] use 'default' cert
+  # certificate_refs = ["ag-ssl-cert","test-ssl-cert"]
 
   agw_public_ip_id = azurerm_public_ip.pip.id
 
