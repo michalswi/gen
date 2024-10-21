@@ -118,13 +118,12 @@ resource "azurerm_public_ip" "pip" {
 module "azure_app_gateway" {
   source = "git::git@github.com:michalswi/ag.git?ref=main"
 
-  location = local.location
-
+  location      = local.location
   backend_fqdns = ["myappservice.azurewebsites.net"]
+  rg_name       = azurerm_resource_group.ag.name
+  key_vault_id  = module.key_vault.key_vault_id
 
-  rg_name = azurerm_resource_group.ag.name
-
-  key_vault_id = module.key_vault.key_vault_id
+  enable_logs = false
 
   # if [] use 'default' cert
   # certificate_refs = ["ag-ssl-cert","test-ssl-cert"]
