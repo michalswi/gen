@@ -135,3 +135,18 @@ module "azure_app_gateway" {
 
   tags = local.tags
 }
+
+# module "log_analytics_workspace" {
+#   source   = "git::git@github.com:michalswi/la.git?ref=main"
+#   location = local.location
+#   rg_name  = azurerm_resource_group.la.name
+#   tags     = local.tags
+# }
+
+# module "storage_account" {
+#   source      = "git::git@github.com:michalswi/sa.git?ref=main"
+#   location    = local.location
+#   rg_name     = azurerm_resource_group.sa.name
+#   enable_logs = false
+#   tags        = local.tags
+# }
