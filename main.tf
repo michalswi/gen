@@ -143,6 +143,46 @@ module "azure_app_gateway" {
 }
 
 
+## SA related
+
+module "storage_account_name" {
+  source        = "git::git@github.com:michalswi/caf.git?ref=main"
+  resource_type = "azurerm_storage_account"
+
+  # org_id        = var.org_id
+  # region        = var.region
+  # function      = var.function
+  # environment   = var.environment
+  index = "001"
+}
+
+resource "azurerm_resource_group" "sa" {
+  name     = "sa-rg"
+  location = local.location
+  tags     = local.tags
+}
+
+module "storage_account" {
+  source = "git::git@github.com:michalswi/sa.git?ref=main"
+
+  name     = module.storage_account_name.caf_name
+  location = local.location
+  rg_name  = azurerm_resource_group.sa.name
+
+  enable_logs = false
+  # OR
+  # log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
+
+  # todo - pass sp_id
+  # service_principal_id = ""
+  # enable_sp = true
+  # OR
+  enable_sp = false # by default false
+
+  tags = local.tags
+}
+
+
 ## VM related
 # resource "azurerm_resource_group" "vm_rg" {
 #   name     = "testvm"
@@ -197,15 +237,4 @@ module "azure_app_gateway" {
 #   key_vault_id = module.key_vault.key_vault_id
 
 #   ip_whitelist = ["<ip>"]
-# }
-
-
-## SA related
-
-# module "storage_account" {
-#   source      = "git::git@github.com:michalswi/sa.git?ref=main"
-#   location    = local.location
-#   rg_name     = azurerm_resource_group.sa.name
-#   enable_logs = false
-#   tags        = local.tags
 # }
